@@ -16,12 +16,39 @@ class Idea extends Model
         'problem',
         'audience',
         'possible_solution',
-        'is_ready'
+        'is_ready',
+        'user_id'
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($idea) {
+            if (!$idea->user_id && auth()->id()) {
+                $idea->user_id = auth()->id();
+            }
+        });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeForUser($query)
+    {
+        return $query->where('user_id', auth()->id());
+    }
+    
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+    public function projects()
+    {
+        return $this->hasMany(project::class);
+    }
+    public function hasProject(){
+        return $this->projects()->exists();
     }
 }
 

@@ -2,7 +2,8 @@
 
 @section('content')
 <!-- Hero section -->
-<div class="relative isolate">
+<div class="relative isolate overflow-hidden bg-white dark:bg-gray-900">
+    <!-- Background gradient effect -->
     <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
         <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
     </div>
@@ -19,18 +20,19 @@
             <!-- Main hero content -->
             <div class="text-center">
                 <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl">
-                    Capture and Clarify Your Ideas
+                    <span class="block text-indigo-600 dark:text-indigo-400">Clarify</span>
+                    <span class="block">Your Ideas & Projects</span>
                 </h1>
                 <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                    Turn your scattered thoughts into organized projects. Clarify helps you capture ideas when they strike and develop them into actionable plans.
+                    Turn your scattered thoughts into organized projects. Clarify helps you capture ideas when they strike and develop them into actionable plans with clear tasks and milestones.
                 </p>
                 <div class="mt-10 flex items-center justify-center gap-x-6">
                     @auth
                         <a href="{{ route('ideas.create') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Capture New Idea
                         </a>
-                        <a href="{{ route('ideas.index') }}" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
-                            View Your Ideas <span aria-hidden="true">→</span>
+                        <a href="{{ route('dashboard') }}" class="rounded-md bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Go to Dashboard
                         </a>
                     @else
                         @if (Route::has('register'))
@@ -39,8 +41,8 @@
                             </a>
                         @endif
                         @if (Route::has('login'))
-                            <a href="{{ route('login') }}" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
-                                Log in <span aria-hidden="true">→</span>
+                            <a href="{{ route('login') }}" class="rounded-md bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                Log in
                             </a>
                         @endif
                     @endauth

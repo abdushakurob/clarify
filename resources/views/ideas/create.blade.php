@@ -1,101 +1,157 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-8">
-    <div class="md:flex md:items-center md:justify-between">
-        <div class="min-w-0 flex-1">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Add New Idea</h2>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('Capture New Idea') }}</h1>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Capture your thoughts and ideas before they slip away.</p>
+        </div>
+        <div>
+            <a href="{{ route('ideas.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                {{ __('Back to Ideas') }}
+            </a>
         </div>
     </div>
 
-    <form method="POST" action="{{ route('ideas.store') }}" class="mt-8 space-y-6">
-        @csrf
-        <div class="space-y-6 bg-white px-6 py-6 sm:rounded-lg shadow">
-            <!-- Basic Information -->
-            <div>
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Basic Information</h3>
-                <div class="mt-4 space-y-4">
-                    <div>
-                        <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
-                        <div class="mt-2">
-                            <input type="text" name="title" id="title" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="What's your idea?">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="notes" class="block text-sm font-medium leading-6 text-gray-900">Notes</label>
-                        <div class="mt-2">
-                            <textarea id="notes" name="notes" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Add any additional thoughts..."></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Idea Clarification -->
-            <div class="border-t border-gray-200 pt-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Idea Clarification</h3>
-                <div class="mt-4 space-y-4">
-                    <div>
-                        <label for="problem" class="block text-sm font-medium leading-6 text-gray-900">Problem</label>
-                        <div class="mt-2">
-                            <textarea id="problem" name="problem" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="What problem does this idea solve?"></textarea>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="audience" class="block text-sm font-medium leading-6 text-gray-900">Target Audience</label>
-                        <div class="mt-2">
-                            <textarea id="audience" name="audience" rows="2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Who is this idea for?"></textarea>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="possible_solution" class="block text-sm font-medium leading-6 text-gray-900">Possible Solution</label>
-                        <div class="mt-2">
-                            <textarea id="possible_solution" name="possible_solution" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="How might this idea be implemented?"></textarea>
-                        </div>
-                    </div>
-
+    <div class="mt-8">
+        <div class="max-w-3xl mx-auto">
+            <!-- Display validation errors if any -->
+            @if ($errors->any())
+                <div class="mb-4 bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-md">
                     <div class="flex items-center">
-                        <input type="checkbox" id="is_ready" name="is_ready" value="1" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                        <label for="is_ready" class="ml-2 block text-sm text-gray-900">Mark as ready for project</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="border-t border-gray-200 pt-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Tags</h3>
-                <div class="mt-4 space-y-4">
-                    <div>
-                        <label for="tags" class="block text-sm font-medium leading-6 text-gray-900">Select Existing Tags</label>
-                        <div class="mt-2">
-                            <select id="tags" name="tags[]" multiple class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                @foreach($tags as $tag)
-                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Please fix the following errors:</h3>
+                            <ul class="mt-1 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
                                 @endforeach
-                            </select>
+                            </ul>
                         </div>
-                        <p class="mt-2 text-sm text-gray-500">Hold Ctrl (Windows) or Cmd (Mac) to select multiple tags.</p>
                     </div>
+                </div>
+            @endif
+            
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <form action="{{ route('ideas.store') }}" method="POST">
+                        @csrf
 
-                    <div>
-                        <label for="new_tags" class="block text-sm font-medium leading-6 text-gray-900">Add New Tags</label>
-                        <div class="mt-2">
-                            <input type="text" name="new_tags" id="new_tags" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. productivity, inspiration">
+                        <div class="space-y-6">
+                            <!-- Title -->
+                            <div>
+                                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Title <span class="text-red-600">*</span>
+                                </label>
+                                <input type="text" name="title" id="title" value="{{ old('title') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('title') border-red-500 @enderror" required placeholder="What's your idea about?">
+                                @error('title')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Give your idea a concise and descriptive title.</p>
+                            </div>
+
+                            <!-- Description -->
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Description
+                                </label>
+                                <textarea name="description" id="description" rows="6" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('description') border-red-500 @enderror" placeholder="Describe your idea in detail...">{{ old('description') }}</textarea>
+                                @error('description')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Elaborate on your idea. Include context, benefits, and potential challenges.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Status -->
+                                <div>
+                                    <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Status <span class="text-red-600">*</span>
+                                    </label>
+                                    <select name="status" id="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('status') border-red-500 @enderror">
+                                        <option value="new" {{ old('status', 'new') == 'new' ? 'selected' : '' }}>New</option>
+                                        <option value="in_review" {{ old('status') == 'in_review' ? 'selected' : '' }}>In Review</option>
+                                        <option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                                        <option value="implemented" {{ old('status') == 'implemented' ? 'selected' : '' }}>Implemented</option>
+                                    </select>
+                                    @error('status')
+                                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Type -->
+                                <div>
+                                    <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Type
+                                    </label>
+                                    <select name="type" id="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('type') border-red-500 @enderror">
+                                        <option value="feature" {{ old('type', 'feature') == 'feature' ? 'selected' : '' }}>Feature</option>
+                                        <option value="improvement" {{ old('type') == 'improvement' ? 'selected' : '' }}>Improvement</option>
+                                        <option value="bug_fix" {{ old('type') == 'bug_fix' ? 'selected' : '' }}>Bug Fix</option>
+                                        <option value="process" {{ old('type') == 'process' ? 'selected' : '' }}>Process</option>
+                                        <option value="other" {{ old('type') == 'other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                    @error('type')
+                                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Tags -->
+                            <div>
+                                <label for="tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Tags
+                                </label>
+                                <input type="text" name="tags" id="tags" value="{{ old('tags') }}" placeholder="feature, improvement, bug-fix (comma separated)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('tags') border-red-500 @enderror">
+                                @error('tags')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional: Add tags to categorize your idea.</p>
+                            </div>
+
+                            <!-- Related Project -->
+                            <div>
+                                <label for="project_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Related Project
+                                </label>
+                                <select name="project_id" id="project_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white @error('project_id') border-red-500 @enderror">
+                                    <option value="">None - Independent Idea</option>
+                                    @if(isset($projects))
+                                        @foreach($projects as $project)
+                                            <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->title }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('project_id')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional: Link this idea to an existing project.</p>
+                            </div>
                         </div>
-                        <p class="mt-2 text-sm text-gray-500">Separate multiple tags with commas.</p>
-                    </div>
+
+                        <div class="mt-8 flex items-center justify-between">
+                            <a href="{{ route('ideas.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+                                Cancel
+                            </a>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                                {{ __('Save Idea') }}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <div class="flex items-center justify-end gap-x-6">
-            <a href="{{ route('ideas.index') }}" class="text-sm font-semibold leading-6 text-gray-900">Cancel</a>
-            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Save Idea
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
 @endsection

@@ -38,14 +38,14 @@ class Idea extends Model
     {
         return $query->where('user_id', auth()->id());
     }
-    
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
     public function projects()
     {
-        return $this->hasMany(project::class);
+        return $this->hasMany(Project::class);
     }
     public function hasProject(){
         return $this->projects()->exists();
